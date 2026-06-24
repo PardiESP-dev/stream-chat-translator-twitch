@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Bienvenido a Stream Chat Translator! - Pardi</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg-color: #0e0e10;
+      --card-bg: #1f1f23;
+      --text-main: #efeff1;
+      --text-muted: #adadb8;
+      --accent-color: #55b947;
+      --border-color: #3f3f46;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    /* Contenedor del logo adaptado al archivo original */
+    .logo-container {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 24px auto;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      border-radius: 20px;
+      overflow: hidden; /* Mantiene las esquinas redondeadas sobre la imagen */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 28px;
+      text-align: left;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 16px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    p {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin: 0 0 20px 0;
+    }
+
+    /* Caja de historia personal / estudiante */
+    .about-box {
+      background: linear-gradient(135deg, #131316 0%, #1a291b 100%);
+      border: 1px solid rgba(85, 185, 71, 0.2);
+    }
+
+    .steps {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .steps li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 14px;
+      font-size: 14.5px;
+      color: var(--text-main);
+    }
+
+    .steps li::before {
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 18px;
+      height: 18px;
+      background-color: var(--accent-color);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .steps li:nth-child(1)::before { content: "1"; }
+    .steps li:nth-child(2)::before { content: "2"; }
+
+    .highlight {
+      background-color: #2f2f35;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #efeff1;
+    }
+
+    .btn-twitch {
+      display: inline-block;
+      background-color: var(--accent-color);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 12px 28px;
+      border-radius: 6px;
+      margin-top: 24px;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn-twitch:hover {
+      background-color: #4eae30;
+      transform: translateY(-1px);
+    }
+
+    .btn-twitch:active {
+      transform: translateY(0);
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="logo-container">
+      <!-- Usamos tu logotipo original directo sin distorsiones -->
+      <img src="Pardi_logo.png" alt="Pardi Logo" class="logo-img">
+    </div>
+
+    <h1>¡Gracias por instalar PardiTranslate!</h1>
+    <div class="subtitle">Tu chat de Twitch, ahora global y sin barreras.</div>
+
+    <!-- Sección de proyecto personal del estudiante -->
+    <div class="card about-box">
+      <h2>🌱 Proyecto Independiente</h2>
+      <p>¡Hola! Detrás de esta extensión no hay ninguna empresa multinacional, sino el proyecto personal de un estudiante. He desarrollado esta herramienta de forma totalmente gratuita con el único objetivo de eliminar barreras en el chat y mejorar la experiencia de la comunidad de Twitch en todo el mundo. ¡Espero que te sea de gran utilidad!</p>
+    </div>
+
+    <div class="card">
+      <h2>📌 ¡No me pierdas de vista!</h2>
+      <p>Para poder activar la traducción automática y configurar tus idiomas preferidos rápidamente, asegúrate de tener el icono siempre a mano:</p>
+      
+      <ul class="steps">
+        <li>Haz clic en el icono de la pieza de rompecabezas <span class="highlight">🧩</span> (Extensiones) arriba a la derecha en tu navegador.</li>
+        <li>Busca <strong>Stream Chat Translator for Twitch - Pardi</strong> y pulsa el icono de la chincheta para fijarlo en tu barra de herramientas.</li>
+      </ul>
+    </div>
+
+    <a href="https://www.twitch.tv" target="_blank" class="btn-twitch">Ir a Twitch y empezar</a>
+
+    <div class="footer">Stream Chat Translator v2.1.0 • pardiesp.dev</div>
+  </div>
+
+</body>
+</html>

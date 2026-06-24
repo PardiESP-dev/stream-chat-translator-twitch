@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Stream Chat Translator for Twitch",
+  "short_name": "StreamChatTranslate",
+  "description": "Real-time Twitch chat translator. Read and write in any language natively and instantly.",
+  "version": "2.2.0",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "Logo_extension.png",
+      "48": "Logo_extension.png",
+      "128": "Logo_extension.png"
+    }
+  },
+  "icons": {
+    "16": "Logo_extension.png",
+    "48": "Logo_extension.png",
+    "128": "Logo_extension.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.twitch.tv/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ]
+}
