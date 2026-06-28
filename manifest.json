@@ -3,7 +3,7 @@
   "name": "Stream Chat Translator for Twitch",
   "short_name": "StreamChatTranslate",
   "description": "Real-time Twitch chat translator. Read and write in any language natively and instantly.",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "permissions": [
     "storage",
     "activeTab"
