@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Stream Chat Translator for Twitch - Pardi</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    :root {
+      --bg-color: #18181b;
+      --panel-bg: #1f1f23;
+      --text-main: #efeff1;
+      --text-muted: #adadb8;
+      --border-color: #3f3f46;
+      --accent-color: #9146ff;       
+      --input-bg: #2f2f35;
+    }
+
+    [data-theme="light"] {
+      --bg-color: #f7f7f8;
+      --panel-bg: #ffffff;
+      --text-main: #0e0e10;
+      --text-muted: #53535f;
+      --border-color: #e4e4e7;
+      --accent-color: #772ce8;       
+      --input-bg: #f2f2f7;
+    }
+
+    body {
+      width: 340px; 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-container {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .pardi-img-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .title-group h1 {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      margin: 0;
+    }
+
+    .title-group span {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .theme-toggle, .app-lang-select {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: 6px;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .theme-toggle {
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .app-lang-select {
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 600;
+      background-color: var(--panel-bg);
+    }
+
+    .theme-toggle:hover, .app-lang-select:hover {
+      background-color: var(--input-bg);
+    }
+
+    .section-box {
+      background-color: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .control-group {
+      margin-bottom: 6px;
+    }
+
+    .row-switch {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .row-switch label {
+      margin-bottom: 0;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .search-lang {
+      width: 100%;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 12.5px;
+      box-sizing: border-box;
+      margin-bottom: 8px;
+      outline: none;
+    }
+
+    .search-lang:focus {
+      border-color: var(--accent-color);
+    }
+
+    select.lang-dropdown {
+      width: 100%;
+      background-color: var(--input-bg);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+
+    select.lang-dropdown:focus {
+      border-color: var(--accent-color);
+    }
+
+    .switch-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--border-color);
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent-color);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .footer-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .footer-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 10px;
+      background-color: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 11.5px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .footer-btn svg {
+      width: 13px;
+      height: 13px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    .footer-btn.rate:hover {
+      border-color: #f59e0b;
+      color: #f59e0b;
+      background-color: var(--input-bg);
+    }
+
+    .footer-btn.kofi:hover {
+      border-color: #ff5e5b;
+      color: #ff5e5b;
+      background-color: var(--input-bg);
+    }
+
+    .footer-version {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+
+    select, .slider, .theme-toggle, .section-box {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .section-box:hover {
+      border-color: var(--accent-color);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="title-group">
+      <div class="logo-container">
+        <img src="Logo_extension.png" alt="Extension Logo" class="pardi-img-logo">
+      </div>
+      <div>
+        <h1>Stream Chat Translator</h1>
+        <span id="subtituloApp">by Pardi • Twitch Edition</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" id="themeBtn">Modo Claro</button>
+      <select class="app-lang-select" id="appLangSelector">
+        <option value="es">ES 🇪🇸</option>
+        <option value="en">EN 🇬🇧</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- SECCIÓN LEER CHAT -->
+  <div class="section-box">
+    <div class="section-title">
+      <span id="titleIn">Traductor de Entrada</span>
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" id="chatActiva">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <label id="labelRead" for="langLeer">Quiero leer el chat en:</label>
+      <input type="text" id="searchLeer" class="search-lang" placeholder="Buscar idioma...">
+      <select id="langLeer" class="lang-dropdown">
+      </select>
+    </div>
+
+    <div class="row-switch" id="contenedorManual" style="opacity: 0.5; transition: opacity 0.2s ease;">
+      <label id="labelManual" for="modoManual">Traducción manual (Botón ⇄)</label>
+      <label class="switch">
+        <input type="checkbox" id="modoManual" disabled>
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- SECCIÓN ENVIAR MENSAJES -->
+  <div class="section-box">
+    <div class="section-title">
+      <span id="titleOut">Mis Mensajes Salientes</span>
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" id="enviarActiva">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label id="labelWrite" for="langEscribir">Quiero escribir en:</label>
+      <input type="text" id="searchEscribir" class="search-lang" placeholder="Buscar idioma...">
+      <select id="langEscribir" class="lang-dropdown">
+      </select>
+    </div>
+  </div>
+
+  <!-- BOTONES DE VALORACIÓN Y APOYO -->
+  <div class="footer-actions">
+    <a href="https://chromewebstore.google.com/detail/eobdmplhpalfddpbeedijglgjjpgpgdl/reviews" target="_blank" class="footer-btn rate" id="btnRate">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+      </svg>
+      <span id="textRate">Valorar 5★</span>
+    </a>
+
+    <a href="https://ko-fi.com/pardiesp" target="_blank" class="footer-btn kofi" id="btnKofi">
+      <svg viewBox="0 0 24 24">
+        <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.26.041 11.231c.176 5.86 4.316 6.702 4.316 6.702s8.599.034 11.248-.008c2.977-.048 4.606-2.072 4.793-4.03.568-5.918.439-10.101.439-10.101zM17.47 16.51c-.608 1.488-2.228 1.956-3.805 1.956-2.18 0-4.062-.897-5.59-2.316-1.528 1.419-3.41 2.316-5.59 2.316-1.577 0-3.197-.468-3.805-1.956-.546-1.336-.263-3.125.753-4.321 1.054-1.242 2.766-2.036 4.652-2.036 1.636 0 3.097.604 4.09 1.583 1.002-.979 2.454-1.583 4.09-1.583 1.886 0 3.598.794 4.652 2.036 1.016 1.196 1.299 2.985.753 4.321zm2.39-4.708s-.175 2.502-.456 4.881c0 0-.109 1.034-1.077 1.282V6.666s2.518.232 2.518 2.656c0 1.229-.985 2.48-.985 2.48z"/>
+      </svg>
+      <span id="textKofi">Invítame a un café</span>
+    </a>
+  </div>
+
+  <div class="footer-version" id="footerReg">v2.3.5 • pardiesp.dev</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
